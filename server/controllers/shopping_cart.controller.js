@@ -35,7 +35,7 @@ exports.summary = async (req, res) => {
 
         if (items.length > 0) {
             items.map(item => {
-                total += (item.product.price * 1);
+                total += item.product.getPrice(item.quantity);
             });
         }
 
@@ -90,7 +90,7 @@ exports.checkout = async (req, res) => {
 
         if (items.length > 0) {
             items.map(item => {
-                total += (item.product.price * 1);
+                total += item.product.getPrice(item.quantity);
             });
         }
 
@@ -157,7 +157,7 @@ exports.addToCart = async (req, res) => {
             product_id: req.body.product_id,
             options: attributes,
             quantity: req.body.quantity,
-            added_on: '',
+            added_on: (new Date()),
         });
 
         res.status(200).send(cart);

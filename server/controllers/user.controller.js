@@ -23,6 +23,7 @@ exports.signup = async (req, res) => {
 
 		const { error } = joi.validate(req.body, schema);
 
+		
 		if (error) {
 			throw new Error(error.details[0].message);
 		}

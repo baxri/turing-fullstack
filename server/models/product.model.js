@@ -39,6 +39,20 @@ module.exports = (sequelize, Sequelize) => {
 			freezeTableName: true,
 		});
 
+
+	Model.prototype.getPrice = function (quantity) {
+
+		let price = (this.price * 1) * quantity;
+
+		if (this.discounted_price > 0) {
+			price = (this.discounted_price * 1) * quantity;
+		} else {
+
+		}
+
+		return price;
+	}
+
 	return Model;
 }
 
