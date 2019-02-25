@@ -1,6 +1,7 @@
 const joi = require('joi');
 const db = require('../config/db.config.js');
 const User = db.user;
+const ShippingRegion = db.shipping_region;
 
 
 exports.signup = async (req, res) => {
@@ -17,6 +18,7 @@ exports.signup = async (req, res) => {
 			postal_code: joi.string().required(),
 			country: joi.string().required(),
 			mob_phone: joi.string().required(),
+			shipping_region_id: joi.number().min(2).required(),
 		}
 
 		const { error } = joi.validate(req.body, schema);
@@ -31,6 +33,14 @@ exports.signup = async (req, res) => {
 			throw new Error('Email already exists!');
 		}
 
+		const shipping = await ShippingRegion.findOne({
+			where: { shipping_region_id: req.body.shipping_region_id }
+		});
+
+		if (!shipping) {
+			throw new Error('Invalid shipping region!');
+		}
+
 		const user = await User.create({
 			name: req.body.name,
 			email: req.body.email,
@@ -41,6 +51,7 @@ exports.signup = async (req, res) => {
 			postal_code: req.body.postal_code,
 			country: req.body.country,
 			mob_phone: req.body.mob_phone,
+			shipping_region_id: req.body.shipping_region_id
 		});
 
 		res.send(user.publicData());

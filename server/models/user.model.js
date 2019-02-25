@@ -38,6 +38,9 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		mob_phone: {
 			type: Sequelize.STRING
+		},
+		shipping_region_id: {
+			type: Sequelize.INTEGER
 		}
 
 	}, {

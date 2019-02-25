@@ -72,8 +72,9 @@ exports.product = async (req, res) => {
         const product = await Product.findOne({
             include: [
                 {
+                    as: 'attributes',
                     model: attributeValue,
-                    attributes: ['value', 'attribute_id'],
+                    attributes: ['value', 'attribute_value_id'],
                 },
             ],
             where: { product_id: req.params.id },
