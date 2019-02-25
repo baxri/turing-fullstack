@@ -36,20 +36,35 @@ db.order = require('../models/orders.model')(sequelize, Sequelize);
 db.order_detail = require('../models/order_detail.model')(sequelize, Sequelize);
 
 
-db.product.belongsToMany(db.category, { through: 'product_category', foreignKey: 'product_id', });
-db.category.belongsToMany(db.product, { through: 'product_category', foreignKey: 'category_id', });
+// Define Relationships below
 
+// Product
+db.product.belongsToMany(db.category, { through: 'product_category', foreignKey: 'product_id', });
 db.product.belongsToMany(db.attributeValue, { as: 'attributes', through: 'product_attribute', foreignKey: 'product_id' });
 
+// Category
+db.category.belongsToMany(db.product, { through: 'product_category', foreignKey: 'category_id', });
+
+// AttributeValue
 db.attributeValue.belongsToMany(db.product, { as: 'products', through: 'product_attribute', foreignKey: 'attribute_value_id' });
 db.attributeValue.belongsTo(db.attribute, { as: 'attribute', foreignKey: 'attribute_id' });
 
+// ShoppingCart
 db.shopping_cart.belongsTo(db.product, { foreignKey: 'product_id' });
 
-
+// User
 db.user.belongsTo(db.shipping_region, { foreignKey: 'shipping_region_id' });
 
+// ShippingRegion
 db.shipping_region.hasMany(db.shipping, { foreignKey: 'shipping_region_id' });
+
+// Order
+db.order.hasMany(db.order_detail, { as: 'items', foreignKey: 'order_id' });
+db.order.belongsTo(db.shipping, { as: 'shipping', foreignKey: 'shipping_id' });
+
+// Order Details
+db.order_detail.belongsTo(db.product, { as: 'product', foreignKey: 'product_id' });
+db.order_detail.belongsTo(db.order, { as: 'order', foreignKey: 'order_id' });
 
 
 module.exports = db;
