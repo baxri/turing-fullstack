@@ -8,6 +8,7 @@ const authMiddleware = require('./middlewares/auth.middleware');
 const userController = require('./controllers/user.controller');
 const productController = require('./controllers/product.controller');
 const shoppingCartController = require('./controllers/shopping_cart.controller');
+const PaymentController = require('./controllers/payment.controller');
 
 // User routes
 router.post('/signin/', userController.signin);
@@ -26,5 +27,7 @@ router.post('/shopping-cart/', shoppingCartController.addToCart);
 router.post('/shopping-cart/:id', shoppingCartController.updateCart);
 router.post('/shopping-cart/:id/delete', shoppingCartController.deleteItem);
 
+// Payment routes
+router.post('/pay', [authMiddleware], PaymentController.pay);
 
 module.exports = router;

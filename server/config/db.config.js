@@ -32,6 +32,9 @@ db.shopping_cart = require('../models/shopping_cart.model')(sequelize, Sequelize
 db.shipping = require('../models/shipping.model')(sequelize, Sequelize);
 db.shipping_region = require('../models/shipping_region.model')(sequelize, Sequelize);
 
+db.order = require('../models/orders.model')(sequelize, Sequelize);
+db.order_detail = require('../models/order_detail.model')(sequelize, Sequelize);
+
 
 db.product.belongsToMany(db.category, { through: 'product_category', foreignKey: 'product_id', });
 db.category.belongsToMany(db.product, { through: 'product_category', foreignKey: 'category_id', });
